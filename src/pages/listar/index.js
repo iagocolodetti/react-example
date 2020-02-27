@@ -58,7 +58,7 @@ function Listar() {
     function carregarTabela() {
         return contatos && contatos.length > 0 ? (
             <div className="table-responsive">
-                <table id="tabelaHeroi" className="table table-bordered table-sm mx-auto w-auto">
+                <table id="tabelaContato" className="table table-bordered table-sm mx-auto w-auto">
                     <thead>
                         <tr>
                             <th>Nome</th>
