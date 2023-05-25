@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './styles.css';
 
@@ -8,7 +8,8 @@ import api from '../../services/api';
 import DivAlert from '../../components/DivAlert';
 
 function Listar() {
-    const history = useHistory();
+    const navigate = useNavigate();
+    
     const [contatos, setContatos] = useState([]);
     const [mensagem, setMensagem] = useState(null);
     const [carregando, setCarregando] = useState(false);
@@ -36,7 +37,7 @@ function Listar() {
     }, [carregar]);
 
     function handleAtualizar(contato) {
-        history.push('/editar', { contato });
+        navigate('/editar', { state: { contato }});
     }
 
     function handleExcluir(contato) {

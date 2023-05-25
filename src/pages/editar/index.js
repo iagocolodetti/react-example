@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import './styles.css';
 
@@ -8,20 +8,20 @@ import api from '../../services/api';
 import DivAlert from '../../components/DivAlert';
 
 function Editar() {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { state } = useLocation();
     let { nome: nomeAtual, telefone: telefoneAtual, email: emailAtual } = state ? state.contato : '';
-    const [nome, setNome] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [email, setEmail] = useState('');
+    const [nome, setNome] = useState(nomeAtual);
+    const [telefone, setTelefone] = useState(telefoneAtual);
+    const [email, setEmail] = useState(emailAtual);
     const [mensagem, setMensagem] = useState(null);
     const [atualizando, setAtualizando] = useState(false);
 
     useEffect(() => {
         if (!state) {
-            history.push('/');
+            navigate('/');
         }
-    }, [state, history]);
+    }, [state, navigate]);
 
     function atualizar(e) {
         e.preventDefault();
@@ -31,13 +31,13 @@ function Editar() {
         api.put(`/contatos/${contato.id}`, { nome, telefone, email })
         .then(() => {
             contato = {...contato, nome, telefone, email};
-            history.replace({ ...history.location, state: { contato } });
+            navigate('/editar', { state: { contato } }, { replace: true });
             nomeAtual = nome;
             telefoneAtual = telefone;
             emailAtual = email;
-            setNome('');
-            setTelefone('');
-            setEmail('');
+            setNome(nome);
+            setTelefone(telefone);
+            setEmail(email);
             setMensagem(divAlert('Contato atualizado com sucesso', 'alert-success'));
         })
         .catch((error) => {
